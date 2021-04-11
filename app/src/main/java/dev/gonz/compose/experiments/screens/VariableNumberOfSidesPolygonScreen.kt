@@ -1,7 +1,10 @@
 package dev.gonz.compose.experiments.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.material.Slider
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,7 +16,7 @@ import dev.gonz.compose.experiments.components.VariableNumberOfSidesPolygon
 @Composable
 fun VariableNumberOfSidesPolygonScreen() {
     var numberOfSides by remember {
-        mutableStateOf(1)
+        mutableStateOf(3)
     }
 
     Column(modifier = Modifier.fillMaxSize(),
@@ -26,15 +29,20 @@ fun VariableNumberOfSidesPolygonScreen() {
                 .fillMaxWidth()
                 .fillMaxHeight(fraction = 0.5F)
         )
-        Slider(
-            steps = 1,
-            valueRange = 3F..12F,
-            modifier = Modifier.padding(horizontal = 20.dp),
-            value = numberOfSides.toFloat(),
-            onValueChange = {
-                numberOfSides = it.toInt()
+        Row(modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Button(onClick = {
+                if (numberOfSides > 3) numberOfSides--
+            }) {
+                Text("-")
             }
-        )
+            Text(numberOfSides.toString(), modifier = Modifier.clickable { numberOfSides = 3 })
+            Button(onClick = { numberOfSides++ }) {
+                Text("+")
+            }
+        }
     }
 }
 
