@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
             ComposeExperimentsTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    MainScreen()
+                    PieChartProgress()
                 }
             }
         }
@@ -36,13 +36,22 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen() {
+fun PreviewWrapper(Content: @Composable () -> Unit) {
+    ComposeExperimentsTheme {
+        Surface(modifier = Modifier.fillMaxSize()) {
+            Content()
+        }
+    }
+}
+
+@Composable
+fun PieChartProgress() {
     var sliderValue by remember {
         mutableStateOf(1F)
     }
 
     Column(modifier = Modifier.fillMaxSize(),
-        Arrangement.SpaceEvenly,
+        verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         PieChart(circleProportion = sliderValue)
@@ -88,9 +97,10 @@ fun PieChart(circleProportion: Float = 1F) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    ComposeExperimentsTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            PieChart()
+    PreviewWrapper {
+        PieChartProgress()
+    }
+}
         }
     }
 }
