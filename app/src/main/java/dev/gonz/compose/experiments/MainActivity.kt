@@ -74,7 +74,7 @@ fun PieChart(circleProportion: Float = 1F) {
                 color = colors[index],
                 startAngle = startAngle,
                 sweepAngle = sweep - separator,
-                useCenter = false,
+                useCenter = true,
                 size = size.minDimension.run {
                     Size(this, this)
                 }
