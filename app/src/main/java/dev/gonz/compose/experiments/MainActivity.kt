@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
             ComposeExperimentsTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    VariableNumberOfSidesPolygon(numberOfSides = 5)
+                    VariableNumberOfSidesPolygonScreen()
                 }
             }
         }
@@ -61,6 +61,29 @@ fun PieChartScreen() {
             value = sliderValue,
             onValueChange = {
                 sliderValue = it
+            }
+        )
+    }
+}
+
+@Composable
+fun VariableNumberOfSidesPolygonScreen() {
+    var numberOfSides by remember {
+        mutableStateOf(1)
+    }
+
+    Column(modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceEvenly,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        VariableNumberOfSidesPolygon(numberOfSides = numberOfSides)
+        Slider(
+            steps = 1,
+            valueRange = 3F..20F,
+            modifier = Modifier.padding(horizontal = 20.dp),
+            value = numberOfSides.toFloat(),
+            onValueChange = {
+                numberOfSides = it.toInt()
             }
         )
     }
