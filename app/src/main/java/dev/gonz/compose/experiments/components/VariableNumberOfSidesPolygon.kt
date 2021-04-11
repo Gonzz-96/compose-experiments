@@ -17,25 +17,30 @@ fun VariableNumberOfSidesPolygon(
     modifier: Modifier = Modifier,
     numberOfSides: Int = 3,
 ) {
-    Canvas(modifier = modifier.background(Color.Yellow)) {
+    Canvas(modifier = modifier) {
         val radius = size.minDimension / 2
         var startAngle = PI / 2 // from the top of the canvas
         val path = Path().apply {
-            val y = radius * sin(startAngle)
-            val x = radius * cos(startAngle)
-            moveTo(x.toFloat() + radius, - y.toFloat() + radius)
+            val offset = getNewCoordinatesFrom(startAngle.toFloat(), radius)
+            moveTo(offset.x, offset.y)
         }
-        numberOfSides.times {
+        repeat(numberOfSides) {
             val slideAngle = (2 * PI) / numberOfSides
-            val y = radius * sin(startAngle + slideAngle)
-            val x = radius * cos(startAngle + slideAngle)
-            // radius must be added since Path (unlike DrawScope.drawLine)
-            // use absolute coordinate instead
-            path.lineTo(x.toFloat() + radius, - y.toFloat() + radius)
+            val offset = getNewCoordinatesFrom((startAngle + slideAngle).toFloat(), radius)
+
+            path.lineTo(offset.x, offset.y)
             startAngle += slideAngle
         }
-        drawPath(path, Color.Blue, style = Stroke(10.0F))
+        drawPath(path, Color.Blue.copy(alpha = 0.5F), style = Stroke(10.0F))
     }
+}
+
+fun getNewCoordinatesFrom(rad: Float, r: Float): Offset {
+    val y = r * sin(rad)
+    val x = r * cos(rad)
+    // radius must be added since Path (unlike DrawScope.drawLine)
+    // use absolute coordinate instead
+    return Offset(x + r, - y + r)
 }
 
 inline fun Int.times(block: (Int) -> Unit) {
