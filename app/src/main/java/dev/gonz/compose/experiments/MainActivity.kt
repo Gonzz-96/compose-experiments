@@ -1,7 +1,6 @@
 package dev.gonz.compose.experiments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Canvas
@@ -12,9 +11,10 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.gonz.compose.experiments.ui.theme.ComposeExperimentsTheme
@@ -76,10 +76,15 @@ fun VariableNumberOfSidesPolygonScreen() {
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        VariableNumberOfSidesPolygon(numberOfSides = numberOfSides)
+        VariableNumberOfSidesPolygon(
+            numberOfSides = numberOfSides,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(fraction = 0.5F)
+        )
         Slider(
             steps = 1,
-            valueRange = 3F..20F,
+            valueRange = 3F..30F,
             modifier = Modifier.padding(horizontal = 20.dp),
             value = numberOfSides.toFloat(),
             onValueChange = {
@@ -127,33 +132,29 @@ fun DefaultPreview() {
 }
 
 @Composable
-fun VariableNumberOfSidesPolygon(numberOfSides: Int = 3) {
-
-    Canvas(modifier = Modifier
-        .fillMaxWidth()
-        .fillMaxHeight(fraction = 0.5F)
-    ) {
+fun VariableNumberOfSidesPolygon(
+    modifier: Modifier = Modifier,
+    numberOfSides: Int = 3,
+) {
+    Canvas(modifier = modifier) {
         val radius = size.minDimension / 2
-        var startAngle = 0.0 // from the top of the canvas
+        val path = Path().apply {
+            moveTo(size.width / 2, 0F)
+        }
+        var startAngle = PI / 2 // from the top of the canvas
         numberOfSides.times {
-            val startY = radius * sin(startAngle)
-            val startX = radius * cos(startAngle)
+            val slideAngle = (2 * PI) / numberOfSides
 
-            val slideAngle = 2 * PI / numberOfSides
+            val y = radius * sin(startAngle + slideAngle)
+            val x = radius * cos(startAngle + slideAngle)
 
-            val endY = radius * sin(startAngle + slideAngle)
-            val endX = radius * cos(startAngle + slideAngle)
-
-            Log.v("CIRCLE", startAngle.toString())
-
-            drawLine(
-                color = Color.Blue,
-                start = Offset(startX.toFloat(), startY.toFloat())  + offsetFrom(radius),
-                end = Offset(endX.toFloat(), endY.toFloat()) + offsetFrom(radius)
-            )
-
+            // radius must be added since Path (unlike DrawScope.drawLine)
+            // use absolute coordinate instead
+            path.lineTo(x.toFloat() + radius, - y.toFloat() + radius)
             startAngle += slideAngle
         }
+
+        drawPath(path, Color.Blue, style = Stroke(10.0F))
     }
 }
 
@@ -163,12 +164,10 @@ inline fun Int.times(block: (Int) -> Unit) {
     }
 }
 
-fun offsetFrom(value: Float) = Offset(value, value)
-
 @Preview(showBackground = true)
 @Composable
 fun PolygonPreview() {
     PreviewWrapper {
-        VariableNumberOfSidesPolygon(numberOfSides = 10)
+        VariableNumberOfSidesPolygonScreen()
     }
 }
