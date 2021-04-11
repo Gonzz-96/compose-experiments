@@ -46,7 +46,7 @@ fun PreviewWrapper(Content: @Composable () -> Unit) {
 }
 
 @Composable
-fun PieChartProgress() {
+fun PieChartScreen() {
     var sliderValue by remember {
         mutableStateOf(1F)
     }
@@ -99,7 +99,7 @@ fun PieChart(circleProportion: Float = 1F) {
 @Composable
 fun DefaultPreview() {
     PreviewWrapper {
-        PieChartProgress()
+        PieChartScreen()
     }
 }
 
