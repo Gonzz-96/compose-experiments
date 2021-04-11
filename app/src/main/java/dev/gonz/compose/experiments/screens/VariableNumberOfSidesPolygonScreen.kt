@@ -28,7 +28,7 @@ fun VariableNumberOfSidesPolygonScreen() {
         )
         Slider(
             steps = 1,
-            valueRange = 3F..30F,
+            valueRange = 3F..12F,
             modifier = Modifier.padding(horizontal = 20.dp),
             value = numberOfSides.toFloat(),
             onValueChange = {
