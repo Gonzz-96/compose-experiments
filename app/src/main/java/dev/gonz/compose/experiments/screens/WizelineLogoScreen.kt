@@ -68,7 +68,7 @@ fun WizelineLogoScreen() {
     Box(modifier = Modifier.fillMaxSize().background(WIZELINE_COLOR)) {
         Canvas(modifier = Modifier.fillMaxSize()) {
             val center = Offset(size.width / 2, size.height / 2)
-            val r = size.width * 0.3F
+            val r = size.minDimension * 0.35F
 
             val introductoryLine = Path()
             introductoryLine.moveTo(center.x + r, size.height)
