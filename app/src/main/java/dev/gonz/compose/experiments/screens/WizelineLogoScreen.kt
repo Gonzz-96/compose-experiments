@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import dev.gonz.compose.experiments.components.PreviewWrapper
-import kotlinx.coroutines.delay
 
 val WIZELINE_COLOR = Color(0xFFEC3C42)
 
@@ -73,7 +72,7 @@ fun WizelineLogoScreen() {
 
             val introductoryLine = Path()
             introductoryLine.moveTo(center.x + r, size.height)
-            introductoryLine.lineTo(center.x + r, size.height / 2)
+            introductoryLine.relativeLineTo(0F, - size.height / 2)
 
             val circlePath = Path()
             circlePath.addArc(
@@ -84,11 +83,11 @@ fun WizelineLogoScreen() {
 
             val intermediatePath = Path()
             intermediatePath.moveTo(center.x - r, size.height / 2)
-            intermediatePath.relativeLineTo( 3 * r / 5, 0F)
-            intermediatePath.relativeLineTo(r / 5, 2 * r / 5)
-            intermediatePath.relativeLineTo(2 * r / 5, - 2 * (2 * r / 5))
-            intermediatePath.relativeLineTo(r / 5, 2 * r / 5)
-            intermediatePath.relativeLineTo(3 * r / 5, 0F)
+            intermediatePath.relativeLineTo((3F / 5F) * r, 0F)
+            intermediatePath.relativeLineTo((1F / 5F) * r, (2F / 5F) * r)
+            intermediatePath.relativeLineTo((2F / 5F) * r, - 2F * (2F / 5F) * r)
+            intermediatePath.relativeLineTo((1F / 5F) * r, (2F / 5F) * r)
+            intermediatePath.relativeLineTo((3F / 5F) * r, 0F)
 
             drawPath(
                 circlePath.getSegment(to = circleProgress),
