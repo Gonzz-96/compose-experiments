@@ -19,7 +19,10 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import dev.gonz.compose.experiments.components.PreviewWrapper
 
-val WIZELINE_COLOR = Color(0xFFEC3C42)
+val WizelineColor = Color(0xFFEC3C42)
+
+val STROKE_WIDTH = 50F
+val RADIUS_PROPORTION = 0.35F
 
 @Composable
 fun WizelineLogoScreen() {
@@ -32,47 +35,36 @@ fun WizelineLogoScreen() {
 
     // introductory line animation progress
     val introductoryLineFadeInProgress by transition.animateFloat(
-        transitionSpec = {
-            tween(durationMillis = 1_000, delayMillis = 0)
-        }, label = "Introductory Line Progress"
+        transitionSpec = { tween(durationMillis = 1_000, delayMillis = 0) },
+        label = "Introductory Line Progress"
     ) { isStarting -> if (isStarting) 0F else 1F }
 
     // introductory line animation progress
     val introductoryLineFadeOutProgress by transition.animateFloat(
-        transitionSpec = {
-            tween(durationMillis = 700, delayMillis = 500)
-        }, label = "Introductory Line Progress"
+        transitionSpec = { tween(durationMillis = 700, delayMillis = 500) },
+        label = "Introductory Line Progress"
     ) { isStarting -> if (isStarting) 0F else 1F }
 
     // circle animation progress
     val circleProgress by transition.animateFloat(
-        transitionSpec = {
-            tween(
-                durationMillis = 1_000,
-                delayMillis = 800
-            )
-        }, label = "Circle Progress"
+        transitionSpec = { tween(durationMillis = 1_000, delayMillis = 800)  },
+        label = "Circle Progress"
     ) { isStarting -> if (isStarting) 0F else 1F }
 
     // intermediate line progress
     val intermediateLineProgress by transition.animateFloat(
-        transitionSpec = {
-          tween(
-              durationMillis = 1_000,
-              delayMillis = 2_000,
-          )
-        },
+        transitionSpec = { tween(durationMillis = 1_000, delayMillis = 2_000) },
         label = "Intermediate Line Progress"
     ) { isStarting -> if (isStarting) 0F else 1F }
 
-    Box(modifier = Modifier.fillMaxSize().background(WIZELINE_COLOR)) {
+    Box(modifier = Modifier.fillMaxSize().background(WizelineColor)) {
         Canvas(modifier = Modifier.fillMaxSize()) {
             val center = Offset(size.width / 2, size.height / 2)
-            val r = size.minDimension * 0.35F
+            val r = size.minDimension * RADIUS_PROPORTION
 
-            val introductoryLine = Path()
-            introductoryLine.moveTo(center.x + r, size.height)
-            introductoryLine.relativeLineTo(0F, - size.height / 2)
+            val introductoryPath = Path()
+            introductoryPath.moveTo(center.x + r, size.height)
+            introductoryPath.relativeLineTo(0F, - size.height / 2)
 
             val circlePath = Path()
             circlePath.addArc(
@@ -92,20 +84,20 @@ fun WizelineLogoScreen() {
             drawPath(
                 circlePath.getSegment(to = circleProgress),
                 Color.White,
-                style = Stroke(50F, cap = StrokeCap.Round)
+                style = Stroke(STROKE_WIDTH, cap = StrokeCap.Round)
             )
             drawPath(
-                introductoryLine.getSegment(
+                introductoryPath.getSegment(
                     from = introductoryLineFadeOutProgress,
                     to = introductoryLineFadeInProgress
                 ),
                 Color.White,
-                style = Stroke(50F, cap = StrokeCap.Round)
+                style = Stroke(STROKE_WIDTH, cap = StrokeCap.Round)
             )
             drawPath(
                 intermediatePath.getSegment(to = intermediateLineProgress),
                 Color.White,
-                style = Stroke(50F, cap = StrokeCap.Round)
+                style = Stroke(STROKE_WIDTH, cap = StrokeCap.Round)
             )
         }
     }
