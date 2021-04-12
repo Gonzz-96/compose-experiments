@@ -21,8 +21,8 @@ import dev.gonz.compose.experiments.components.PreviewWrapper
 
 val WizelineColor = Color(0xFFEC3C42)
 
-val STROKE_WIDTH = 50F
-val RADIUS_PROPORTION = 0.35F
+const val STROKE_WIDTH = 50F
+const val RADIUS_PROPORTION = 0.35F
 
 @Composable
 fun WizelineLogoScreen() {
