@@ -1,5 +1,6 @@
 package dev.gonz.compose.experiments.screens
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -18,6 +19,11 @@ import dev.gonz.compose.experiments.components.VariableNumberOfSidesPolygon
 fun VariableNumberOfSidesPolygonScreen() {
     var numberOfSides by remember { mutableStateOf(3) }
     var pathProgress by remember { mutableStateOf(1F) }
+
+    SideEffect {
+        Log.v("Polygon", "Recomposed!")
+    }
+
 
     Column(modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly,

@@ -17,7 +17,6 @@
     <style name="Theme.Composeexperiments.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimaryVariant">#EC3C42</item>
     </style>
 
     <style name="Theme.Composeexperiments.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
